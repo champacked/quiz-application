@@ -1,30 +1,45 @@
 export const quizData = [
   {
     id: 1,
-    question: "What is the capital of France?",
-    options: ["London", "Berlin", "Paris", "Madrid"],
-    correctAnswer: "Paris",
-    timeLimit: 30
+    question: "Which planet is closest to the Sun?",
+    options: ["Venus", "Mercury", "Earth", "Mars"],
+    correctAnswer: "Mercury",
+    timeLimit: 30,
   },
   {
     id: 2,
-    question: "Which planet is known as the Red Planet?",
-    options: ["Venus", "Mars", "Jupiter", "Saturn"],
-    correctAnswer: "Mars",
-    timeLimit: 30
+    question:
+      "Which data structure organizes items in a First-In, First-Out (FIFO) manner?",
+    options: ["Stack", "Queue", "Tree", "Graph"],
+    correctAnswer: "Queue",
+    timeLimit: 30,
   },
   {
     id: 3,
-    question: "What is the largest mammal in the world?",
-    options: ["African Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
-    correctAnswer: "Blue Whale",
-    timeLimit: 30
+    question:
+      "Which of the following is primarily used for structuring web pages?",
+    options: ["Python", "Java", "HTML", "C++"],
+    correctAnswer: "HTML",
+    timeLimit: 30,
   },
   {
     id: 4,
-    question: "Who painted the Mona Lisa?",
-    options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
-    correctAnswer: "Leonardo da Vinci",
-    timeLimit: 30
-  }
+    question: "Which chemical symbol stands for Gold?",
+    options: ["Au", "Gd", "Ag", "Pt"],
+    correctAnswer: "Au",
+    timeLimit: 30,
+  },
+  {
+    id: 5,
+    question:
+      "Which of these processes is not typically involved in refining petroleum?",
+    options: [
+      "Fractional distillation",
+      "Cracking",
+      "Polymerization",
+      "Filtration",
+    ],
+    correctAnswer: "Filtration",
+    timeLimit: 30,
+  },
 ];
