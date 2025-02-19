@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { quizData } from '../data/quizData';
+import { useState, useEffect } from "react";
+import { quizData } from "../data/quizData";
 
 const QuizPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -39,6 +39,21 @@ const QuizPage = () => {
       setCurrentQuestion(nextQuestion);
       setTimeLeft(30);
     } else {
+      const newAttempt = {
+        date: new Date().toLocaleString(),
+        score: score,
+        totalQuestions: quizData.length,
+        percentage: Math.round((score / quizData.length) * 100),
+      };
+
+      // Get existing attempts from localStorage
+      const existingAttempts = JSON.parse(
+        localStorage.getItem("quizAttempts") || "[]"
+      );
+      const updatedAttempts = [...existingAttempts, newAttempt];
+
+      // Save to localStorage
+      localStorage.setItem("quizAttempts", JSON.stringify(updatedAttempts));
       setShowScore(true);
     }
   };
@@ -62,10 +77,7 @@ const QuizPage = () => {
             <p className="text-2xl mb-8 text-gray-700">
               You scored {score} out of {quizData.length}
             </p>
-            <button
-              className="btn-primary"
-              onClick={resetQuiz}
-            >
+            <button className="btn-primary" onClick={resetQuiz}>
               Retry Quiz
             </button>
           </div>
@@ -97,11 +109,12 @@ const QuizPage = () => {
                   onClick={() => !isAnswered && handleAnswerClick(option)}
                   disabled={isAnswered}
                   className={`w-full text-left px-6 py-4 rounded-lg border-2 
-                    ${isAnswered 
-                      ? option === quizData[currentQuestion].correctAnswer
-                        ? 'bg-green-100 border-green-500'
-                        : 'bg-gray-100 border-gray-300'
-                      : 'border-gray-200 hover:border-primary hover:bg-blue-50'
+                    ${
+                      isAnswered
+                        ? option === quizData[currentQuestion].correctAnswer
+                          ? "bg-green-100 border-green-500"
+                          : "bg-gray-100 border-gray-300"
+                        : "border-gray-200 hover:border-primary hover:bg-blue-50"
                     }
                     transition-all duration-200
                     focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50

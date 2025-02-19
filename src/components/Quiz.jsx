@@ -1,14 +1,19 @@
-import { useState, useEffect } from 'react';
-import { quizData } from '../data/quizData';
+import { useState, useEffect } from "react";
+import { quizData } from "../data/quizData";
 
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [timeLeft, setTimeLeft] = useState(30);
-  const [attempts, setAttempts] = useState([]);
-  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showFeedback, setShowFeedback] = useState(false);
+
+  // Get attempts from localStorage or initialize empty array
+  const savedAttempts = JSON.parse(
+    localStorage.getItem("quizAttempts") || "[]"
+  );
+  const [attempts, setAttempts] = useState(savedAttempts);
 
   useEffect(() => {
     if (timeLeft > 0 && !showScore) {
@@ -22,7 +27,7 @@ const Quiz = () => {
   const handleAnswerClick = (answer) => {
     setSelectedAnswer(answer);
     setShowFeedback(true);
-    
+
     if (answer === quizData[currentQuestion].correctAnswer) {
       setScore(score + 1);
     }
@@ -37,14 +42,17 @@ const Quiz = () => {
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setTimeLeft(30);
-      setSelectedAnswer('');
+      setSelectedAnswer("");
     } else {
       const newAttempt = {
         date: new Date().toLocaleString(),
         score: score,
-        totalQuestions: quizData.length
+        totalQuestions: quizData.length,
+        percentage: Math.round((score / quizData.length) * 100),
       };
-      setAttempts([...attempts, newAttempt]);
+      const updatedAttempts = [...attempts, newAttempt];
+      setAttempts(updatedAttempts);
+      localStorage.setItem("quizAttempts", JSON.stringify(updatedAttempts));
       setShowScore(true);
     }
   };
@@ -54,7 +62,7 @@ const Quiz = () => {
     setScore(0);
     setShowScore(false);
     setTimeLeft(30);
-    setSelectedAnswer('');
+    setSelectedAnswer("");
     setShowFeedback(false);
   };
 
@@ -69,7 +77,8 @@ const Quiz = () => {
           <h3>Attempt History</h3>
           {attempts.map((attempt, index) => (
             <div key={index} className="attempt">
-              Attempt {index + 1}: {attempt.score}/{attempt.totalQuestions} - {attempt.date}
+              Attempt {index + 1}: {attempt.score}/{attempt.totalQuestions} -{" "}
+              {attempt.date}
             </div>
           ))}
         </div>
@@ -97,11 +106,11 @@ const Quiz = () => {
             className={`answer-button ${
               showFeedback
                 ? option === quizData[currentQuestion].correctAnswer
-                  ? 'correct'
+                  ? "correct"
                   : option === selectedAnswer
-                  ? 'incorrect'
-                  : ''
-                : ''
+                  ? "incorrect"
+                  : ""
+                : ""
             }`}
             disabled={showFeedback}
           >
